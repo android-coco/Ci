@@ -24,7 +24,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 |
 */
 $config['base_url'] = 'http://www.ci.net/';
-
+/**
+ * 图片服务器url
+ */
+$config['image_base_url'] = 'http://image.51efan.me/';
 /*
 |--------------------------------------------------------------------------
 | Index File
