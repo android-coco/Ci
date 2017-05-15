@@ -17,16 +17,16 @@ class Menu_model extends CI_Model
     // 所有菜品
     public function getMenu($page = 0)
     {
-        if ($page == 1)
+        if ($page < 1)
         {
-            $page = 0;
+            $page = 1;
         }
         $this->db->select('A.menuid,A.menuname,A.pic,A.price');
         $this->db->from('menu A');
         $this->db->order_by('A.menuid','DESC');
-        $this->db->limit($page * 16, 16);
+        $this->db->limit(16, ($page - 1) * 16);
         $query = $this->db->get();
-        echo "sql语句：".$this->db->last_query();
+        //echo "sql语句：".$this->db->last_query();
         return $query->result_array();
     }
 
