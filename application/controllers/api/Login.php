@@ -15,6 +15,17 @@ class Login extends Api_Controller
 
     }
 
+    public function index()
+    {
+        # code...
+        $data = array(
+            'relult1'=>'0',
+            'relult2'=>'1',
+            'relult3'=>'2'
+        );
+        $this->response($data);
+    }
+
     public function login()
     {
         $user_name = $this->input->post('user') == null ? $this->input->get('user') : $this->input->post('user');
