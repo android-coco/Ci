@@ -23,7 +23,7 @@ class Menu_model extends CI_Model
         }
         $this->db->select('A.menuid,A.menuname,A.pic,A.price');
         $this->db->from('menu A');
-        $this->db->order_by('A.menuid','DESC');
+        $this->db->order_by('A.menuid', 'DESC');
         $this->db->limit(32, ($page - 1) * 32);
         $query = $this->db->get();
         //echo "sql语句：".$this->db->last_query();
@@ -32,7 +32,7 @@ class Menu_model extends CI_Model
 
     /**
      * 获取门店菜单
-     * @param  int   $storeid    门店id
+     * @param  int $storeid 门店id
      * @return array             菜单列表
      */
     public function getRowsByStoreid($storeid)
@@ -49,7 +49,8 @@ class Menu_model extends CI_Model
         $this->db->where($where);
         $this->db->order_by('A.price', 'desc');
         $query = $this->db->get();
-        if ($query->num_rows() > 0) {
+        if ($query->num_rows() > 0)
+        {
             return $query->result_array();
         }
         return 0;
