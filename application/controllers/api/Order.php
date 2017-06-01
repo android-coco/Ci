@@ -5,6 +5,7 @@
  * User: yhlyl
  * Date: 2017/5/13
  * Time: 11:42
+ * @property  var order_model
  */
 class Order extends Api_Controller
 {
