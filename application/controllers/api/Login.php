@@ -28,6 +28,7 @@ class Login extends Api_Controller
 
     public function login()
     {
+        //$this->benchmark->mark('code_start');
         $user_name = $this->input->post('user') == null ? $this->input->get('user') : $this->input->post('user');
         $pass = $this->input->post('pass') == null ? $this->input->get('pass') : $this->input->post('pass');;
         if (!empty($user_name) && !empty($pass))
@@ -41,6 +42,8 @@ class Login extends Api_Controller
         {
             $this->response(array('result' => 1));
         }
+        //$this->benchmark->mark('code_end');
+        //echo $this->benchmark->elapsed_time('code_start', 'code_end');
     }
 
 
