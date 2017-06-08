@@ -11,7 +11,7 @@
         <li><?php echo $item;?>: <?php echo $value;?></li>
     <?php endforeach; ?>
 </ul>
-
+<span><img src="http://192.168.0.4/CI/uploads/<?php echo $upload_data['file_name']; ?>" alt=""/></span>
 <p><?php echo anchor('upload', 'Upload Another File!'); ?></p>
 
 </body>
