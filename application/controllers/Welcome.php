@@ -20,12 +20,13 @@ class Welcome extends Web_Controller {
 	 */
 	public function index()
 	{
-		$this->load->view('welcome_message');
+		//$this->load->view('welcome_message');
 		//echo "hello CI";
+		echo date('Y-m-d H:i:s',time())."\n";
 	}
 
 	public function todo()
 	{
-		echo "hello world";
+		echo date('Y-m-d H:i:s',time())."\n";
 	}
 }
