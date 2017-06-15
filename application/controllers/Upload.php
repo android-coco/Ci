@@ -38,7 +38,7 @@ class Upload extends Web_Controller
         else
         {
             $data = array('upload_data' => $this->upload->data());
-
+            $data['base_url'] = $this->config->item('base_url');
             $this->load->view('upload_success', $data);
         }
     }
