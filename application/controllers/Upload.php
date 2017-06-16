@@ -22,8 +22,9 @@ class Upload extends Web_Controller
     public function do_upload()
     {
         $config['upload_path'] = './uploads/';
-        $config['allowed_types'] = 'gif|jpg|png';
+        $config['allowed_types'] = 'gif|jpg|png|ecg|txt';
         $config['max_size'] = 1024;
+        $config['file_name']= uniqid();
 //        $config['max_width'] = 1024;
 //        $config['max_height'] = 768;
 
@@ -37,7 +38,8 @@ class Upload extends Web_Controller
         }
         else
         {
-            $data = array('upload_data' => $this->upload->data());
+            $fileData = $this->upload->data();
+            $data = array('upload_data' => $fileData);
             $data['base_url'] = $this->config->item('base_url');
             $this->load->view('upload_success', $data);
         }

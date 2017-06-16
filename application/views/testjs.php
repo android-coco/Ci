@@ -75,11 +75,11 @@
     {
         if (navigator.cookieEnabled)
         {
-            alert("已启用 cookie");
+            console.log("已启用 cookie");
         }
         else
         {
-            alert("未启用 cookie");
+            console.log("未启用 cookie");
         }
     }
     //onchange
@@ -122,5 +122,42 @@
     //删除已有的 HTML 元素 第二种写法
     //var child=document.getElementById("p1");//要删除的元素
     //child.parentNode.removeChild(child);//找到父亲然后删除
+
+    //js对象
+    var person = new Object();
+    person.firstname = "Bill";
+    person.lastname = "Gates";
+    person.age = 58;
+    person.eyecolor="blue";
+    //document.write(person.firstname + " is " + person.age + " years old.");
+    console.log(person.firstname + " is " + person.age + " years old.");
+    //代替对象初始化
+    var person1 = {firstname:"John",lastname:"Doe",age:50,eyecolor:"blue"};
+    console.log(person1.firstname + " is " + person1.age + " years old.");
+    //第三种初始化 函数
+    function person3(firstname,lastname,age,eyecolor)
+    {
+        this.firstname=firstname;
+        this.lastname=lastname;
+        this.age=age;
+        this.eyecolor=eyecolor;
+    }
+    var person2 = new person3("Vill","Gates",56,"blue");
+    console.log(person2.firstname + " is " + person2.age + " years old.");
+    var txt = "";
+    for (var x in person2)
+    {
+        txt += person[x];
+    }
+    console.log(txt);
+
+    var w=window.innerWidth
+        || document.documentElement.clientWidth
+        || document.body.clientWidth;
+
+    var h=window.innerHeight
+        || document.documentElement.clientHeight
+        || document.body.clientHeight;
+    console.log("浏览器的内部窗口宽度：" + w + "，高度：" + h + "。");
 </script>
 </html>
