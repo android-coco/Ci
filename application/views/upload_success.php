@@ -5,7 +5,9 @@
 <body>
 
 <h3>Your file was successfully uploaded!</h3>
-
+<script>
+	alert("成功！");
+</script>
 <ul>
     <?php foreach ($upload_data as $item => $value):?>
         <li><?php echo $item;?>: <?php echo $value;?></li>
