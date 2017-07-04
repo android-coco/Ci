@@ -26,4 +26,9 @@ class MenuBean
     {
         return $this->pic;
     }
+
+    public function add()
+    {
+        return ($this->menuid + $this->pic);
+    }
 }
