@@ -30,4 +30,11 @@ class Menu extends Api_Controller
         $row = is_null($row) ? array() : $row;
         echo json_encode(array('result' => 0, 'data' => $row));
     }
+
+    public function id()
+    {
+        $id = $this->input->get("id");
+        $menuBean = $this->menu_model->getMenuById($id);
+        echo json_encode($menuBean);
+    }
 }

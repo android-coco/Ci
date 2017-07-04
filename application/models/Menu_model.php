@@ -1,11 +1,11 @@
 <?php
-
 /**
  * Created by PhpStorm.
  * User: yhlyl
  * Date: 2017/5/13
  * Time: 12:26
  */
+require_once APPPATH . 'controllers/MenuBean.php';
 class Menu_model extends CI_Model
 {
     public function __construct()
@@ -13,6 +13,17 @@ class Menu_model extends CI_Model
         parent::__construct();
         $this->load->database();
     }
+
+    public function getMenuById($id = 0)
+    {
+        $this->db->select('A.menuid,A.menuname,A.pic');
+        $this->db->from('menu A');
+        $this->db->order_by('A.menuid', 'DESC');
+        $query = $this->db->get();
+        //echo "sql语句：".$this->db->last_query();
+        return $query->row(0,'MenuBean');
+    }
+
 
     // 所有菜品
     public function getMenu($page = 0)

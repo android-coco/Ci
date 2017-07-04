@@ -26,4 +26,5 @@ class Hello extends Web_Controller
         $data['orders'] = $this->order_model->getBadgeByUid();
         $this->load->view('hello_message',$data);
     }
+
 }
