@@ -72,6 +72,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         </tbody>
     </table>
 </div>
+<div class="am-form-group">
+    <div class="am-u-sm-2 am-padding-0">
+        <input type="text" name="captcha" value="<?php echo $wrod;?>">
+    </div>
+    <div class="am-u-sm-10 am-animation-fade">
+        <?php echo $cap_img_html; ?>
+    </div>
+</div>
 </body>
 </html>
 <script type="text/javascript">
