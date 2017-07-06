@@ -15,7 +15,7 @@ class Test extends Web_Controller
 
     public function index()
     {
-        $data['base_url'] = $this->config->item('base_url');
+        $data['base_url'] = $this->base_url;
         $this->load->view('test1.php',$data);
     }
 }

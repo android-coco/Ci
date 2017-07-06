@@ -53,7 +53,7 @@ class Menu_model extends CI_Model
             'C.storeid' => $storeid,
             //'B.number >' => 0,
         );
-        $this->db->select('A.*, C.storeid, B.number');
+        $this->db->select('A.menuid,A.catid,A.status,A.menuname,A.pic,A.price, C.storeid, B.number');
         $this->db->from('menu A');
         $this->db->join('menu_stock B', 'A.menuid = B.menuid', 'left');
         $this->db->join('store C', 'C.sid = B.sid', 'inner');

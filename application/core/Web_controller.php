@@ -14,6 +14,7 @@ class Web_Controller extends YH_Controller
 
         // 网址导入
         $this->load->config('config');
+        $this->load->helper('json_helper');
         $this->base_url = $this->config->item('base_url');
     }
 
@@ -35,7 +36,6 @@ class Web_Controller extends YH_Controller
 
     public function response($data)
     {
-        $this->load->helper('json_helper');
         echo api_jsonp_encode($data);
         exit;
     }

@@ -20,6 +20,6 @@ class Order extends Api_Controller
         $page = $this->input->get("page");
         $row = $this->order_model->getBadgeByUid($page);
         $row = is_null($row) ? array() : $row;
-        echo json_encode(array('result' => 0, 'data' => $row));
+        $this->response(array('result' => 0, 'data' => $row));
     }
 }

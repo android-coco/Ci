@@ -40,7 +40,7 @@ class Upload extends Web_Controller
         {
             $fileData = $this->upload->data();
             $data = array('upload_data' => $fileData);
-            $data['base_url'] = $this->config->item('base_url');
+            $data['base_url'] = $this->base_url;
             $this->load->view('upload_success', $data);
         }
     }

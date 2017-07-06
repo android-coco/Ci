@@ -14,12 +14,13 @@ class Menu extends Api_Controller
         $this->load->model('Menu_model', 'menu_model');
     }
 
-    public function menulist()
+    public function list()
     {
         $page = $this->input->get("page");
+        $page = isset($page) ? $page : 0;
         $row = $this->menu_model->getMenu($page);
         $row = is_null($row) ? array() : $row;
-        echo json_encode(array('result' => 0, 'data' => $row));
+        $this->response(array('result' => 0, 'data' => $row));
     }
 
 
@@ -28,13 +29,13 @@ class Menu extends Api_Controller
         $storeid = $this->input->get("storeid");
         $row = $this->menu_model->getRowsByStoreid($storeid);
         $row = is_null($row) ? array() : $row;
-        echo json_encode(array('result' => 0, 'data' => $row));
+        $this->response(array('result' => 0, 'data' => $row));
     }
 
     public function id()
     {
         $id = $this->input->get("id");
         $menuBean = $this->menu_model->getMenuById($id);
-        echo json_encode($menuBean);
+        $this->response($menuBean);
     }
 }

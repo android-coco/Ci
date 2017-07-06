@@ -27,10 +27,10 @@ class Hello extends Web_Controller
             'sex' => '1'
         );
         $data['wrod'] = $this->session->cap_word;
-        $base_url = $this->config->item('base_url');
+
         $data['orders'] = $this->order_model->getBadgeByUid();
         $img_path = FCPATH . 'static/captcha/';
-        $img_url = $base_url . 'static/captcha/';
+        $img_url = $this->base_url . 'static/captcha/';
         $cfg = config_captcha($img_path, $img_url);
         $cap = create_captcha($cfg);
         $data['cap_img_html'] = $cap['image'];
