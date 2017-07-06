@@ -14,7 +14,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>生命体征数据统计系统 </title>
+    <title>E顿饭数据统计系统 </title>
     <link rel="stylesheet" href="<?php echo $base_url; ?>static/css/base.css">
     <script src="<?php echo $base_url;?>static/js/jquery-3.2.1.min.js"></script>
 </head>
@@ -54,6 +54,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         <div style="height:20px;width:100%;float: left;"></div>
         <input type="submit" id="submitform" value="搜索" onclick="submitform()">
     </form>
+    <button id="closeMe">导出报表</button>
 </div>
 <div class="table_box">
     <table>
@@ -173,6 +174,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
         $("#form").submit();
     }
+
+    $('#closeMe').click(function ()
+    {
+        alert("aaa");
+    });
 
 </script>
 </html>
