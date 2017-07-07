@@ -15,8 +15,11 @@ class Exportdata extends Web_Controller
         $this->load->library('pagination');//分页
         $this->load->helper('config_pagination');
         $this->load->helper('form');
+        $this->load->library('PHPExcel');
+        $this->load->helper('excel');
         $this->load->model('Exportdata_model', 'exportdata_model');
     }
+
 
     public function lists($page = 1)
     {
@@ -41,5 +44,17 @@ class Exportdata extends Web_Controller
         $this->load->view('export_message', $data);
     }
 
+
+    public function exportToData()
+    {
+        $currdData = date("Y-m-d");
+        $start = empty($this->input->get("start_time")) ? $currdData : $this->input->get("start_time");
+        $end = empty($this->input->get("end_time")) ? $currdData : $this->input->get("end_time");
+        $data['info'] = $this->exportdata_model->exportxiaoshou($start, $end)['info'];
+        $data['num'] = $this->exportdata_model->getxiaoshou($start, $end)['num'];
+        $header = array('订单详情id','订单id','菜品id','总数量','已取餐数量','已退押金',
+            '用户申请退款数量','原始价格','减免价格','需支付价格','最后修改时间','购买者用户昵称','菜品名称','下单时间','支付类型1=微信，2=支付宝','店铺名称');
+        excel_download($header,$data['info']);
+    }
 
 }

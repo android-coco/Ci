@@ -56,7 +56,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     </form>
     <button id="closeMe">导出报表</button>
 </div>
-<div class="table_box">
+<div class="table_box" id="dataDiv">
     <table>
         <thead>
         <tr>
@@ -177,7 +177,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
     $('#closeMe').click(function ()
     {
-        alert("aaa");
+        window.location.href = '<?php echo $base_url; ?>exportdata/exportToData?start_time=<?php echo $start;?>&end_time=<?php echo $end;?>';
     });
 
 </script>
