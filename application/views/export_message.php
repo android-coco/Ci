@@ -16,18 +16,18 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>E顿饭数据统计系统 </title>
     <link rel="stylesheet" href="<?php echo $base_url; ?>static/css/base.css">
-    <script src="<?php echo $base_url;?>static/js/jquery-3.2.1.min.js"></script>
+    <script src="<?php echo $base_url; ?>static/js/jquery-3.2.1.min.js"></script>
 </head>
 
 <body>
 <div class="hd">
-   <!-- <div class="r_menu">
+    <!-- <div class="r_menu">
 
-        <a class="out_btn" href="./login.html">
-            <i class="iconfont icon-tuichu"></i>
-            退出登录
-        </a>
-    </div>-->
+         <a class="out_btn" href="./login.html">
+             <i class="iconfont icon-tuichu"></i>
+             退出登录
+         </a>
+     </div>-->
     <p class="tit">
         数据统计系统 —— 导出数据
     </p>
@@ -38,7 +38,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             <div class="am-form-group">
                 <label for="user-weibo" class="am-u-sm-4 am-form-label">开始时间</label>
                 <div class="am-u-sm-8">
-                    <input type="text" id='start_time' name='start_time'  value="<?php echo isset($start) ? $start: ''?>" placeholder="点击选择时间" readonly>
+                    <input type="text" id='start_time' name='start_time'
+                           value="<?php echo isset($start) ? $start : '' ?>" placeholder="点击选择时间" readonly>
                 </div>
             </div>
         </div>
@@ -46,13 +47,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             <div class="am-form-group">
                 <label for="user-weibo" class="am-u-sm-4 am-form-label">结束时间 </label>
                 <div class="am-u-sm-8">
-                    <input type="text" id='end_time' name='end_time' value="<?php echo isset($end) ? $end:''?>" placeholder="点击选择时间" readonly>
+                    <input type="text" id='end_time' name='end_time' value="<?php echo isset($end) ? $end : '' ?>"
+                           placeholder="点击选择时间" readonly>
 
                 </div>
             </div>
         </div>
         <div style="height:20px;width:100%;float: left;"></div>
-        <input type="submit" id="submitform" value="搜索" onclick="submitform()">
+        <input type="submit" id="submitform" value="搜索" onclick="getdata(5)">
     </form>
     <button id="closeMe">导出报表</button>
 </div>
@@ -138,15 +140,27 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     <div class="page_bar">
         <p>
             共<span class="sum"><?php echo $num; ?></span>条数据 页数:
-            <span class="page"><?php echo $per_page; ?>/<?php echo $total_page; ?></span>
-            <a href="<?php echo $base_url; ?>exportdata/lists/1?start_time=<?php echo $start;?>&end_time=<?php echo $end;?>" class="sy">首页</a>
-            <a href="<?php echo $base_url; ?>exportdata/lists/<?php echo ($per_page-1) <= 1 ? 1 : ($per_page-1); ?>?start_time=<?php echo $start;?>&end_time=<?php echo $end;?>"
+            <span class="page" id="spanpage"><?php echo $per_page; ?>/<?php echo $total_page; ?></span>
+        <!--    <a href="<?php /*echo $base_url; */?>exportdata/lists/1?start_time=<?php /*echo $start; */?>&end_time=<?php /*echo $end; */?>"
+               class="sy">首页</a>
+            <a href="<?php /*echo $base_url; */?>exportdata/lists/<?php /*echo ($per_page - 1) <= 1 ? 1 : ($per_page - 1); */?>?start_time=<?php /*echo $start; */?>&end_time=<?php /*echo $end; */?>"
                class="">上页</a>
-            <a href="<?php echo $base_url; ?>exportdata/lists/<?php echo ($per_page+1) >= $total_page ? $total_page : ($per_page+1); ?>?start_time=<?php echo $start;?>&end_time=<?php echo $end;?>" class="">下页</a>
-            <a href="<?php echo $base_url; ?>exportdata/lists/<?php echo $total_page; ?>?start_time=<?php echo $start;?>&end_time=<?php echo $end;?>" class="sy">尾页</a>
+            <a href="<?php /*echo $base_url; */?>exportdata/lists/<?php /*echo ($per_page + 1) >= $total_page ? $total_page : ($per_page + 1); */?>?start_time=<?php /*echo $start; */?>&end_time=<?php /*echo $end; */?>"
+               class="">下页</a>
+            <a href="<?php /*echo $base_url; */?>exportdata/lists/<?php /*echo $total_page; */?>?start_time=<?php /*echo $start; */?>&end_time=<?php /*echo $end; */?>"
+               class="sy">尾页</a>-->
+
+            <a href="javascript:void(0)"
+               class="sy" onclick="getdata(1)">首页</a>
+            <a href="javascript:void(0)"
+               class="" onclick="getdata(2)">上页</a>
+            <a href="javascript:void(0)"
+               class="" onclick="getdata(3)">下页</a>
+            <a href="javascript:void(0)"
+               class="sy" onclick="getdata(4)">尾页</a>
             转到
-            <input type="number" class="val_num" autocomplete="off">
-            <a href="#">GO</a>
+            <input id="gopage" type="number" class="val_num" autocomplete="off">
+            <a href="javascript:void(0)" onclick="getdata(6)">GO</a>
         </p>
     </div>
 </div>
@@ -175,10 +189,88 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         $("#form").submit();
     }
 
-    $('#closeMe').click(function ()
-    {
+    $('#closeMe').click(function () {
         window.location.href = '<?php echo $base_url; ?>exportdata/exportToData?start_time=<?php echo $start;?>&end_time=<?php echo $end;?>';
     });
+    $('#go').click(function () {
+        //$('#consignee').val().trim()
+        var page = $('#gopage').val().trim();
+        if (page != "" && !isNaN(page)) {
+            if (page > <?php echo $total_page; ?>) {
+                alert("页面超出范围！");
+                return;
+            }
+            window.location.href = '<?php echo $base_url; ?>exportdata/lists/' + page + '?start_time=<?php echo $start;?>&end_time=<?php echo $end;?>';
+        } else {
+            alert("请输入正确的页面值！");
+        }
+
+    });
+
+    function getdata(type) {
+        var url = '';
+        switch (type)
+        {
+            case 1://首页
+            case 5://搜索
+                url = '<?php echo $base_url; ?>exportdata/ajaxData/?page=1start_time=<?php echo $start;?>&end_time=<?php echo $end;?>';
+                break
+            case 2://上页
+                url = '<?php echo $base_url; ?>exportdata/ajaxData/?page=<?php echo ($per_page - 1) <= 1 ? 1 : ($per_page - 1);?>&start_time=<?php echo $start; ?>&end_time=<?php echo $end; ?>';
+                break
+            case 3://下页
+                url = '<?php echo $base_url; ?>exportdata/ajaxData/?page=<?php echo ($per_page + 1) >= $total_page ? $total_page : ($per_page + 1); ?>&start_time=<?php echo $start;?>&end_time=<?php echo $end;?>';
+                break
+            case 4://尾页
+                url = '<?php echo $base_url; ?>exportdata/ajaxData/?page=<?php echo $total_page; ?>&start_time=<?php echo $start;?>&end_time=<?php echo $end;?>';
+                break
+            case 6://go
+                var page = $('#gopage').val().trim();
+                if (page != "" && !isNaN(page)) {
+                    if (page > <?php echo $total_page; ?>) {
+                        alert("页面超出范围！");
+                        return;
+                    }
+                    url = '<?php echo $base_url; ?>exportdata/ajaxData/?page=' + page + '&start_time=<?php echo $start;?>&end_time=<?php echo $end;?>';
+                } else {
+                    alert("请输入正确的页面值！");
+                    return;
+                }
+                break
+
+        }
+        $.getJSON(url, function (data) {
+            //console.log('getJSON---');
+            console.log(data);
+            console.log(url);
+            var resArr = data.info;
+
+            var html = '';
+            for (var i = 0; i < resArr.length; i++) {
+                console.log(resArr[i].订单详情id);
+                html += "<tr> " +
+                    "<td>" + resArr[i].订单详情id + "</td> " +
+                    "<td>" + resArr[i].订单id + "</td> " +
+                    "<td>" + resArr[i].菜品id + "</td> " +
+                    "<td>" + resArr[i].价格 + "</td>" +
+                    "<td>" + resArr[i].总数量 + "</td>" +
+                    "<td>" + resArr[i].已取餐数量 + "</td>" +
+                    "<td>" + resArr[i].用户申请退款数量 + "</td>" +
+                    "<td>" + resArr[i].原始价格 + "</td>" +
+                    "<td>" + resArr[i].减免价格 + "</td>" +
+                    "<td>" + resArr[i].需支付价格 + "</td>" +
+                    "<td>" + resArr[i].最后修改时间 + "</td>" +
+                    "<td>" + resArr[i].购买者用户昵称 + "</td>" +
+                    "<td>" + resArr[i].菜品名称 + "</td>" +
+                    "<td>" + resArr[i].下单时间 + "</td>" +
+                    "<td>" + resArr[i].支付类型 + "</td>" +
+                    "<td>" + resArr[i].店铺名称 + "</td>" +
+                    "</tr>"
+            }
+            $("tbody").html(html);
+            $("#spanpage").text(data.per_page + "/" + data.total_page);
+        })
+    }
 
 </script>
 </html>
