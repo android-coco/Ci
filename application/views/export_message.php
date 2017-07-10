@@ -33,7 +33,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     </p>
 </div>
 <div class="search_bar">
-    <form action="<?php echo $base_url; ?>exportdata/lists/" method="get" id="form">
+    <form id="form">
         <div class="am-u-sm-12 am-u-md-12 am-u-lg-3">
             <div class="am-form-group">
                 <label for="user-weibo" class="am-u-sm-4 am-form-label">开始时间</label>
@@ -54,7 +54,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             </div>
         </div>
         <div style="height:20px;width:100%;float: left;"></div>
-        <input type="submit" id="submitform" value="搜索" onclick="getdata(5)">
+        <input type="button" value="搜索" onclick="getdata(1)">
     </form>
     <button id="closeMe">导出报表</button>
 </div>
@@ -139,8 +139,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
     <div class="page_bar">
         <p>
-            共<span class="sum"><?php echo $num; ?></span>条数据 页数:
-            <span class="page" id="spanpage"><?php echo $per_page; ?>/<?php echo $total_page; ?></span>
+            共<span id="num" class="sum"><?php echo $num; ?></span>条数据 页数:
+            <span class="page" ><span id="perpage"><?php echo $per_page; ?></span><span>/</span><span id="totalpage"><?php echo $total_page; ?></span></span>
+
+<!--    <span class="page" id="spanpage">--><?php //echo $per_page; ?><!--/--><?php //echo $total_page; ?><!--</span>-->
         <!--    <a href="<?php /*echo $base_url; */?>exportdata/lists/1?start_time=<?php /*echo $start; */?>&end_time=<?php /*echo $end; */?>"
                class="sy">首页</a>
             <a href="<?php /*echo $base_url; */?>exportdata/lists/<?php /*echo ($per_page - 1) <= 1 ? 1 : ($per_page - 1); */?>?start_time=<?php /*echo $start; */?>&end_time=<?php /*echo $end; */?>"
@@ -150,14 +152,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             <a href="<?php /*echo $base_url; */?>exportdata/lists/<?php /*echo $total_page; */?>?start_time=<?php /*echo $start; */?>&end_time=<?php /*echo $end; */?>"
                class="sy">尾页</a>-->
 
-            <a href="javascript:void(0)"
-               class="sy" onclick="getdata(1)">首页</a>
-            <a href="javascript:void(0)"
-               class="" onclick="getdata(2)">上页</a>
-            <a href="javascript:void(0)"
-               class="" onclick="getdata(3)">下页</a>
-            <a href="javascript:void(0)"
-               class="sy" onclick="getdata(4)">尾页</a>
+            <a href="javascript:void(0)" class="sy" onclick="getdata(1)">首页</a>
+            <a href="javascript:void(0)" class="" onclick="getdata(2)">上页</a>
+            <a href="javascript:void(0)" class="" onclick="getdata(3)">下页</a>
+            <a href="javascript:void(0)" class="sy" onclick="getdata(4)">尾页</a>
             转到
             <input id="gopage" type="number" class="val_num" autocomplete="off">
             <a href="javascript:void(0)" onclick="getdata(6)">GO</a>
@@ -169,25 +167,27 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <script type="text/javascript">
     $(function () {
         laydate({
-            elem: '#start_time'
+            elem: '#start_time',
+            format: 'YYYY/MM/DD'
         });
         laydate({
-            elem: '#end_time'
+            elem: '#end_time',
+            format: 'YYYY/MM/DD'
         });
 
 
     });
-    function submitform() {
-        //提交表单
-        var start_time = $('#start_time').val();
-        var end_time = $('#end_time').val();
-        if (start_time > end_time) {
-            alert('开始时间不能大于结束时间');
-            return;
-        }
-
-        $("#form").submit();
-    }
+//    function submitform() {
+//        //提交表单
+//        var start_time = $('#start_time').val();
+//        var end_time = $('#end_time').val();
+//        if (start_time > end_time) {
+//            alert('开始时间不能大于结束时间');
+//            return;
+//        }
+//
+//        $("#form").submit();
+//    }
 
     $('#closeMe').click(function () {
         window.location.href = '<?php echo $base_url; ?>exportdata/exportToData?start_time=<?php echo $start;?>&end_time=<?php echo $end;?>';
@@ -209,20 +209,25 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
     function getdata(type) {
         var url = '';
+        var prepage = parseInt($("#perpage").text());
+        var totalpage = parseInt($("#totalpage").text());
+        var start = $('#start_time').val().replace(/-/g,"/");
+        var end = $('#end_time').val().replace(/-/g,"/");
         switch (type)
         {
-            case 1://首页
-            case 5://搜索
-                url = '<?php echo $base_url; ?>exportdata/ajaxData/?page=1start_time=<?php echo $start;?>&end_time=<?php echo $end;?>';
+            case 1://首页 搜索
+                url = '<?php echo $base_url; ?>exportdata/ajaxData/?page=1&start_time='+start+'&end_time=' + end;
                 break
             case 2://上页
-                url = '<?php echo $base_url; ?>exportdata/ajaxData/?page=<?php echo ($per_page - 1) <= 1 ? 1 : ($per_page - 1);?>&start_time=<?php echo $start; ?>&end_time=<?php echo $end; ?>';
+                var curr_page = (prepage - 1) <= 1 ? 1 : (prepage - 1);
+                url = '<?php echo $base_url; ?>exportdata/ajaxData/?page='+curr_page+'&start_time='+start+'&end_time='+end;
                 break
             case 3://下页
-                url = '<?php echo $base_url; ?>exportdata/ajaxData/?page=<?php echo ($per_page + 1) >= $total_page ? $total_page : ($per_page + 1); ?>&start_time=<?php echo $start;?>&end_time=<?php echo $end;?>';
+                var curr_page = (prepage + 1) >= totalpage ? totalpage : (prepage + 1);
+                url = '<?php echo $base_url; ?>exportdata/ajaxData/?page='+curr_page+'&start_time='+start+'&end_time='+end;
                 break
             case 4://尾页
-                url = '<?php echo $base_url; ?>exportdata/ajaxData/?page=<?php echo $total_page; ?>&start_time=<?php echo $start;?>&end_time=<?php echo $end;?>';
+                url = '<?php echo $base_url; ?>exportdata/ajaxData/?page='+totalpage+'&start_time='+start+'&end_time='+end;
                 break
             case 6://go
                 var page = $('#gopage').val().trim();
@@ -241,13 +246,17 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         }
         $.getJSON(url, function (data) {
             //console.log('getJSON---');
-            console.log(data);
+            //console.log(data);
             console.log(url);
             var resArr = data.info;
-
             var html = '';
+            if (jQuery.isEmptyObject(resArr))
+            {
+                alert("暂无数据");
+                return;
+            }
             for (var i = 0; i < resArr.length; i++) {
-                console.log(resArr[i].订单详情id);
+                //console.log(resArr[i].订单详情id);
                 html += "<tr> " +
                     "<td>" + resArr[i].订单详情id + "</td> " +
                     "<td>" + resArr[i].订单id + "</td> " +
@@ -268,7 +277,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     "</tr>"
             }
             $("tbody").html(html);
-            $("#spanpage").text(data.per_page + "/" + data.total_page);
+            $('#num').text(data.num);
+            $("#perpage").text(data.per_page);
+            $('#totalpage').text(data.total_page);
+            $('#start_time').text(start);
+            $('#end_time').text(end);
         })
     }
 
