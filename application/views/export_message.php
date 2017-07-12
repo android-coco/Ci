@@ -39,7 +39,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 <label for="user-weibo" class="am-u-sm-4 am-form-label">开始时间</label>
                 <div class="am-u-sm-8">
                     <input type="text" id='start_time' name='start_time'
-                           value="<?php echo isset($start) ? $start : '' ?>" placeholder="点击选择时间" readonly>
+                           value="<?php echo isset($start) ? $start : '' ?>" placeholder="点击选择时间">
                 </div>
             </div>
         </div>
@@ -48,7 +48,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 <label for="user-weibo" class="am-u-sm-4 am-form-label">结束时间 </label>
                 <div class="am-u-sm-8">
                     <input type="text" id='end_time' name='end_time' value="<?php echo isset($end) ? $end : '' ?>"
-                           placeholder="点击选择时间" readonly>
+                           placeholder="点击选择时间">
 
                 </div>
             </div>
@@ -140,16 +140,18 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     <div class="page_bar">
         <p>
             共<span id="num" class="sum"><?php echo $num; ?></span>条数据 页数:
-            <span class="page" ><span id="perpage"><?php echo $per_page; ?></span><span>/</span><span id="totalpage"><?php echo $total_page; ?></span></span>
+            <span class="page"><span id="perpage"><?php echo $per_page; ?></span><span>/</span><span
+                    id="totalpage"><?php echo $total_page; ?></span></span>
 
-<!--    <span class="page" id="spanpage">--><?php //echo $per_page; ?><!--/--><?php //echo $total_page; ?><!--</span>-->
-        <!--    <a href="<?php /*echo $base_url; */?>exportdata/lists/1?start_time=<?php /*echo $start; */?>&end_time=<?php /*echo $end; */?>"
+            <!--    <span class="page" id="spanpage">--><?php //echo $per_page; ?><!--/-->
+            <?php //echo $total_page; ?><!--</span>-->
+            <!--    <a href="<?php /*echo $base_url; */ ?>exportdata/lists/1?start_time=<?php /*echo $start; */ ?>&end_time=<?php /*echo $end; */ ?>"
                class="sy">首页</a>
-            <a href="<?php /*echo $base_url; */?>exportdata/lists/<?php /*echo ($per_page - 1) <= 1 ? 1 : ($per_page - 1); */?>?start_time=<?php /*echo $start; */?>&end_time=<?php /*echo $end; */?>"
+            <a href="<?php /*echo $base_url; */ ?>exportdata/lists/<?php /*echo ($per_page - 1) <= 1 ? 1 : ($per_page - 1); */ ?>?start_time=<?php /*echo $start; */ ?>&end_time=<?php /*echo $end; */ ?>"
                class="">上页</a>
-            <a href="<?php /*echo $base_url; */?>exportdata/lists/<?php /*echo ($per_page + 1) >= $total_page ? $total_page : ($per_page + 1); */?>?start_time=<?php /*echo $start; */?>&end_time=<?php /*echo $end; */?>"
+            <a href="<?php /*echo $base_url; */ ?>exportdata/lists/<?php /*echo ($per_page + 1) >= $total_page ? $total_page : ($per_page + 1); */ ?>?start_time=<?php /*echo $start; */ ?>&end_time=<?php /*echo $end; */ ?>"
                class="">下页</a>
-            <a href="<?php /*echo $base_url; */?>exportdata/lists/<?php /*echo $total_page; */?>?start_time=<?php /*echo $start; */?>&end_time=<?php /*echo $end; */?>"
+            <a href="<?php /*echo $base_url; */ ?>exportdata/lists/<?php /*echo $total_page; */ ?>?start_time=<?php /*echo $start; */ ?>&end_time=<?php /*echo $end; */ ?>"
                class="sy">尾页</a>-->
 
             <a href="javascript:void(0)" class="sy" onclick="getdata(1)">首页</a>
@@ -168,35 +170,43 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     $(function () {
         laydate({
             elem: '#start_time',
-            format: 'YYYY/MM/DD'
+            format: 'YYYY-MM-DD',
+            //min: laydate.now(-1), //-1代表昨天，-2代表前天，以此类推
+            //max: laydate.now(+1) //+1代表明天，+2代表后天，以此类推
+            max: laydate.now()
         });
         laydate({
             elem: '#end_time',
-            format: 'YYYY/MM/DD'
+            format: 'YYYY-MM-DD',
+            max: laydate.now()
         });
 
 
     });
-//    function submitform() {
-//        //提交表单
-//        var start_time = $('#start_time').val();
-//        var end_time = $('#end_time').val();
-//        if (start_time > end_time) {
-//            alert('开始时间不能大于结束时间');
-//            return;
-//        }
-//
-//        $("#form").submit();
-//    }
+    //    function submitform() {
+    //        //提交表单
+    //        var start_time = $('#start_time').val();
+    //        var end_time = $('#end_time').val();
+    //        if (start_time > end_time) {
+    //            alert('开始时间不能大于结束时间');
+    //            return;
+    //        }
+    //
+    //        $("#form").submit();
+    //    }
 
-    $('#closeMe').click(function () {
-        window.location.href = '<?php echo $base_url; ?>exportdata/exportToData?start_time=<?php echo $start;?>&end_time=<?php echo $end;?>';
+    $('#closeMe').click(function ()
+    {
+        var start = $('#start_time').val().replace(/-/g, "/");
+        var end = $('#end_time').val().replace(/-/g, "/");
+        window.location.href = '<?php echo $base_url; ?>exportdata/exportToData?start_time='+start+'&end_time=' + end;
     });
     $('#go').click(function () {
         //$('#consignee').val().trim()
         var page = $('#gopage').val().trim();
+        var totalpage = parseInt($("#totalpage").text());
         if (page != "" && !isNaN(page)) {
-            if (page > <?php echo $total_page; ?>) {
+            if (page > totalPage) {
                 alert("页面超出范围！");
                 return;
             }
@@ -211,32 +221,34 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         var url = '';
         var prepage = parseInt($("#perpage").text());
         var totalpage = parseInt($("#totalpage").text());
-        var start = $('#start_time').val().replace(/-/g,"/");
-        var end = $('#end_time').val().replace(/-/g,"/");
-        switch (type)
-        {
+        var start = $('#start_time').val();
+        var end = $('#end_time').val();
+        switch (type) {
             case 1://首页 搜索
-                url = '<?php echo $base_url; ?>exportdata/ajaxData/?page=1&start_time='+start+'&end_time=' + end;
+                url = '<?php echo $base_url; ?>exportdata/ajaxData/?page=1&start_time=' + start + '&end_time=' + end;
                 break
             case 2://上页
                 var curr_page = (prepage - 1) <= 1 ? 1 : (prepage - 1);
-                url = '<?php echo $base_url; ?>exportdata/ajaxData/?page='+curr_page+'&start_time='+start+'&end_time='+end;
+                url = '<?php echo $base_url; ?>exportdata/ajaxData/?page=' + curr_page + '&start_time=' + start + '&end_time=' + end;
                 break
             case 3://下页
                 var curr_page = (prepage + 1) >= totalpage ? totalpage : (prepage + 1);
-                url = '<?php echo $base_url; ?>exportdata/ajaxData/?page='+curr_page+'&start_time='+start+'&end_time='+end;
+                url = '<?php echo $base_url; ?>exportdata/ajaxData/?page=' + curr_page + '&start_time=' + start + '&end_time=' + end;
                 break
             case 4://尾页
-                url = '<?php echo $base_url; ?>exportdata/ajaxData/?page='+totalpage+'&start_time='+start+'&end_time='+end;
+                url = '<?php echo $base_url; ?>exportdata/ajaxData/?page=' + totalpage + '&start_time=' + start + '&end_time=' + end;
                 break
             case 6://go
                 var page = $('#gopage').val().trim();
-                if (page != "" && !isNaN(page)) {
-                    if (page > <?php echo $total_page; ?>) {
+                if (page != "" && !isNaN(page))
+                {
+                    var totalpage = parseInt($("#totalpage").text());
+                    if (page > totalpage)
+                    {
                         alert("页面超出范围！");
                         return;
                     }
-                    url = '<?php echo $base_url; ?>exportdata/ajaxData/?page=' + page + '&start_time=<?php echo $start;?>&end_time=<?php echo $end;?>';
+                    url = '<?php echo $base_url; ?>exportdata/ajaxData/?page=' + page + '&start_time=' + start + '&end_time=' + end;
                 } else {
                     alert("请输入正确的页面值！");
                     return;
@@ -250,8 +262,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             console.log(url);
             var resArr = data.info;
             var html = '';
-            if (jQuery.isEmptyObject(resArr))
-            {
+            if (jQuery.isEmptyObject(resArr)) {
                 alert("暂无数据");
                 return;
             }
@@ -282,6 +293,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             $('#totalpage').text(data.total_page);
             $('#start_time').text(start);
             $('#end_time').text(end);
+            laydate.reset();
         })
     }
 

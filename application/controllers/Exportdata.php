@@ -23,7 +23,7 @@ class Exportdata extends Web_Controller
 
     public function lists($page = 1)
     {
-        $currdData = date("Y/m/d");
+        $currdData = date("Y-m-d");
         $start = empty($this->input->get("start_time")) ? $currdData : $this->input->get("start_time");
         $end = empty($this->input->get("end_time")) ? $currdData : $this->input->get("end_time");
         $data['info'] = $this->exportdata_model->getxiaoshou($start, $end, $page)['info'];
@@ -47,7 +47,7 @@ class Exportdata extends Web_Controller
 
     public function ajaxData()
     {
-        $currdData = date("Y/m/d");
+        $currdData = date("Y-m-d");
         $page = empty($this->input->get("page")) ? 1 : $this->input->get("page");
         $start = empty($this->input->get("start_time")) ? $currdData : $this->input->get("start_time");
         $end = empty($this->input->get("end_time")) ? $currdData : $this->input->get("end_time");
