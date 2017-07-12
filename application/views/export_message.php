@@ -39,7 +39,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 <label for="user-weibo" class="am-u-sm-4 am-form-label">开始时间</label>
                 <div class="am-u-sm-8">
                     <input type="text" id='start_time' name='start_time'
-                           value="<?php echo isset($start) ? $start : '' ?>" placeholder="点击选择时间">
+                           value="<?php echo isset($start) ? $start : '' ?>" placeholder="点击选择时间" readonly>
                 </div>
             </div>
         </div>
@@ -48,7 +48,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 <label for="user-weibo" class="am-u-sm-4 am-form-label">结束时间 </label>
                 <div class="am-u-sm-8">
                     <input type="text" id='end_time' name='end_time' value="<?php echo isset($end) ? $end : '' ?>"
-                           placeholder="点击选择时间">
+                           placeholder="点击选择时间" readonly>
 
                 </div>
             </div>
@@ -113,7 +113,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             </th>
         </tr>
         </thead>
-        <tbody>
+        <tbody id="mytobody">
         <?php foreach ($info as $value): ?>
             <tr>
                 <td><?php echo $value['订单详情id']; ?></td>
@@ -140,7 +140,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     <div class="page_bar">
         <p>
             共<span id="num" class="sum"><?php echo $num; ?></span>条数据 页数:
-            <span class="page"><span id="perpage"><?php echo $per_page; ?></span><span>/</span><span
+            <span class="page"><span id="perpage"><?php echo $num == 0 ? 0 : $per_page; ?></span><span>/</span><span
                     id="totalpage"><?php echo $total_page; ?></span></span>
 
             <!--    <span class="page" id="spanpage">--><?php //echo $per_page; ?><!--/-->
@@ -153,11 +153,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                class="">下页</a>
             <a href="<?php /*echo $base_url; */ ?>exportdata/lists/<?php /*echo $total_page; */ ?>?start_time=<?php /*echo $start; */ ?>&end_time=<?php /*echo $end; */ ?>"
                class="sy">尾页</a>-->
-
-            <a href="javascript:void(0)" class="sy" onclick="getdata(1)">首页</a>
-            <a href="javascript:void(0)" class="" onclick="getdata(2)">上页</a>
-            <a href="javascript:void(0)" class="" onclick="getdata(3)">下页</a>
-            <a href="javascript:void(0)" class="sy" onclick="getdata(4)">尾页</a>
+            <!-- <?php //echo $num == 0 ? "" : ' href="javascript:void(0)" onclick="getdata(1)"'; ?> -->
+            <a id="homepage" class="sy">首页</a>
+            <a id="up"  class="sy" >上页</a>
+            <a id="down" href="javascript:void(0)" onclick="getdata(3)">下页</a>
+            <a id="backpage"
+               class="sy" <?php echo ($num == 0 || $total_page == 1) ? "" : ' href="javascript:void(0)" onclick="getdata(4)"'; ?> >尾页</a>
             转到
             <input id="gopage" type="number" class="val_num" autocomplete="off">
             <a href="javascript:void(0)" onclick="getdata(6)">GO</a>
@@ -167,7 +168,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 </body>
 <script type="text/javascript" src="/static/laydate/laydate.js"></script>
 <script type="text/javascript">
-    $(function () {
+    $(function ()
+    {
         laydate({
             elem: '#start_time',
             format: 'YYYY-MM-DD',
@@ -199,31 +201,37 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     {
         var start = $('#start_time').val().replace(/-/g, "/");
         var end = $('#end_time').val().replace(/-/g, "/");
-        window.location.href = '<?php echo $base_url; ?>exportdata/exportToData?start_time='+start+'&end_time=' + end;
+        window.location.href = '<?php echo $base_url; ?>exportdata/exportToData?start_time=' + start + '&end_time=' + end;
     });
-    $('#go').click(function () {
+    $('#go').click(function ()
+    {
         //$('#consignee').val().trim()
         var page = $('#gopage').val().trim();
         var totalpage = parseInt($("#totalpage").text());
-        if (page != "" && !isNaN(page)) {
-            if (page > totalPage) {
+        if (page != "" && !isNaN(page))
+        {
+            if (page > totalPage)
+            {
                 alert("页面超出范围！");
                 return;
             }
             window.location.href = '<?php echo $base_url; ?>exportdata/lists/' + page + '?start_time=<?php echo $start;?>&end_time=<?php echo $end;?>';
-        } else {
+        } else
+        {
             alert("请输入正确的页面值！");
         }
 
     });
 
-    function getdata(type) {
+    function getdata(type)
+    {
         var url = '';
         var prepage = parseInt($("#perpage").text());
         var totalpage = parseInt($("#totalpage").text());
         var start = $('#start_time').val();
         var end = $('#end_time').val();
-        switch (type) {
+        switch (type)
+        {
             case 1://首页 搜索
                 url = '<?php echo $base_url; ?>exportdata/ajaxData/?page=1&start_time=' + start + '&end_time=' + end;
                 break
@@ -249,24 +257,29 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         return;
                     }
                     url = '<?php echo $base_url; ?>exportdata/ajaxData/?page=' + page + '&start_time=' + start + '&end_time=' + end;
-                } else {
+                } else
+                {
                     alert("请输入正确的页面值！");
                     return;
                 }
                 break
 
         }
-        $.getJSON(url, function (data) {
+        $.getJSON(url, function (data)
+        {
             //console.log('getJSON---');
             //console.log(data);
             console.log(url);
             var resArr = data.info;
             var html = '';
-            if (jQuery.isEmptyObject(resArr)) {
-                alert("暂无数据");
-                return;
-            }
-            for (var i = 0; i < resArr.length; i++) {
+//            if (jQuery.isEmptyObject(resArr))
+//            {
+//                alert("暂无数据");
+//                $("#perpage").text(0);
+//                $('#totalpage').text(0);
+//            }
+            for (var i = 0; i < resArr.length; i++)
+            {
                 //console.log(resArr[i].订单详情id);
                 html += "<tr> " +
                     "<td>" + resArr[i].订单详情id + "</td> " +
@@ -287,13 +300,106 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     "<td>" + resArr[i].店铺名称 + "</td>" +
                     "</tr>"
             }
-            $("tbody").html(html);
+            document.getElementById("mytobody").innerHTML = html;
+            //$("tbody").innerHTML = html;//和时间控件兼容性问题
+            var per = data.per_page;//当前页
+            var total=data.total_page;//总页数
             $('#num').text(data.num);
-            $("#perpage").text(data.per_page);
-            $('#totalpage').text(data.total_page);
-            $('#start_time').text(start);
-            $('#end_time').text(end);
-            laydate.reset();
+            $("#perpage").text(total == 0 ? 0 : per);
+            $('#totalpage').text(total);
+            $('#gopage').val("");
+            var up = $('#up');//上一页
+            var down = $('#down');//下一页
+            var homepage = $('#homepage');//首页
+            var backpage = $('#backpage');//尾页
+
+            if (total <= 1)//无数据 总页数是为0或1
+            {
+                //上一页不能点击
+                up.addClass('sy');
+                up.removeAttr('href');
+                up.removeAttr('onclick');
+                //下一页不能点击
+                down.addClass('sy');
+                down.removeAttr('href');
+                down.removeAttr('onclick');
+                //首页不能点击
+                homepage.removeAttr('href');
+                homepage.removeAttr('onclick');
+                //尾页不能点击
+                backpage.removeAttr('href');
+                backpage.removeAttr('onclick');
+            } else//不止一页时
+            {
+                //当前页不是第一页
+                if(per > 1)
+                {
+                    //当前页小于总页数及当前不是最后一页
+                    if(per < total)
+                    {
+                        //上一页可以点击
+                        if (up.hasClass('sy'))
+                        {
+                            up.removeClass('sy');
+                            up.attr("href", "javascript:void(0)");
+                            up.attr("onclick", "getdata(2)");
+                        }
+                        //下一页可以点击
+                        if (down.hasClass('sy'))
+                        {
+                            down.removeClass('sy');
+                            down.attr("href", "javascript:void(0)");
+                            down.attr("onclick", "getdata(3)");
+                        }
+                        //首页可以点击
+                        homepage.attr("href", "javascript:void(0)");
+                        homepage.attr("onclick", "getdata(1)");
+                        //尾页可以点击
+                        backpage.attr("href", "javascript:void(0)");
+                        backpage.attr("onclick", "getdata(4)");
+                    }else//是最后一页
+                    {
+                        //上一页可以点击
+                        if (up.hasClass('sy'))
+                        {
+                            up.removeClass('sy');
+                            up.attr("href", "javascript:void(0)");
+                            up.attr("onclick", "getdata(2)");
+                        }
+                        //下一页不能点击
+                        down.addClass('sy');
+                        down.removeAttr('href');
+                        down.removeAttr('onclick');
+                        //首页可以点击
+                        homepage.attr("href", "javascript:void(0)");
+                        homepage.attr("onclick", "getdata(1)");
+                        //尾页不能点击
+                        backpage.removeAttr('href');
+                        backpage.removeAttr('onclick');
+                    }
+                }else//当前为第一页时
+                {
+                    //上一页不能点击
+                    up.addClass('sy');
+                    up.removeAttr('href');
+                    up.removeAttr('onclick');
+                    //下一页可以点击
+                    if (down.hasClass('sy'))
+                    {
+                        down.removeClass('sy');
+                        down.attr("href", "javascript:void(0)");
+                        down.attr("onclick", "getdata(3)");
+                    }
+                    //首页不能点击
+                    homepage.removeAttr('href');
+                    homepage.removeAttr('onclick');
+                    //尾页可以点击
+                    backpage.attr("href", "javascript:void(0)");
+                    backpage.attr("onclick", "getdata(4)");
+                }
+            }
+
+
         })
     }
 
