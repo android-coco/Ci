@@ -22,7 +22,7 @@ if ( ! function_exists('excel_download')){
 									 ->setCategory("Test result file");
 		// 重定向客户端浏览器(Excel5)
 		header('Content-Type: application/vnd.ms-excel');
-		header('Content-Disposition: attachment;filename="'.date('Ymd').'.csv"');
+		header('Content-Disposition: attachment;filename="'.date('Ymd').'.xlsx"');
 		header('Cache-Control: max-age=0');
 		// 如果你的是IE9则需要下面内容
 		header('Cache-Control: max-age=1');

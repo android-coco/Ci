@@ -156,7 +156,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             <!-- <?php //echo $num == 0 ? "" : ' href="javascript:void(0)" onclick="getdata(1)"'; ?> -->
             <a id="homepage" class="sy">首页</a>
             <a id="up"  class="sy" >上页</a>
-            <a id="down" href="javascript:void(0)" onclick="getdata(3)">下页</a>
+            <a id="down" <?php echo ($num == 0 || $total_page == 1) ? 'class="sy"' : '  href="javascript:void(0)" onclick="getdata(4)"'; ?> >下页</a>
             <a id="backpage"
                class="sy" <?php echo ($num == 0 || $total_page == 1) ? "" : ' href="javascript:void(0)" onclick="getdata(4)"'; ?> >尾页</a>
             转到
@@ -301,7 +301,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     "</tr>"
             }
             document.getElementById("mytobody").innerHTML = html;
-            //$("tbody").innerHTML = html;//和时间控件兼容性问题
+            //$("tbody").hmtl(html);//和时间控件兼容性问题
             var per = data.per_page;//当前页
             var total=data.total_page;//总页数
             $('#num').text(data.num);
