@@ -40,4 +40,10 @@ class Web_Controller extends YH_Controller
         exit;
     }
 
+    public function log($data = null)
+    {
+        var_dump_pre($data);
+        die();
+    }
+
 }

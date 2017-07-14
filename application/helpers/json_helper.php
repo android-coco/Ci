@@ -61,3 +61,20 @@ if (!function_exists('api_jsonp_encode'))
         return $json; // json
     }
 }
+/**var_dump格式化
+ * @param null $mixed
+ * @return null
+ */
+if (!function_exists('var_dump_pre'))
+{
+    function var_dump_pre($data = array())
+    {
+        echo '<pre>';
+        var_dump($data);
+        echo '</pre>';
+        return array();
+    }
+}
+
+
+

@@ -17,4 +17,9 @@ class Api_Controller extends YH_Controller
         echo api_jsonp_encode($data);
         exit;
     }
+    public function log($data = null)
+    {
+        var_dump_pre($data);
+        die();
+    }
 }

@@ -41,6 +41,8 @@ class Exportdata extends Web_Controller
         $data['end'] = $end;
         $data['curr_url'] = $url;
         $data['total_page'] = ceil(($data['num'] / 10));
+//        $this->response($data);
+//        $this->log($data);
         $this->load->view('export_message', $data);
     }
 
