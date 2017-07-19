@@ -53,8 +53,13 @@
  *
  * NOTE: If you change these, also change the error_reporting() code below
  */
-	define('ENVIRONMENT', isset($_SERVER['CI_ENV']) ? $_SERVER['CI_ENV'] : 'development');
-
+  define('ENVIRONMENT', isset($_SERVER['CI_ENV']) ? $_SERVER['CI_ENV'] : 'development');
+/**
+ * redis配置
+ */
+define('REDIS_HOST','127.0.0.1',true);
+define('REDIS_POST','6388',true);
+define('REDIS_PWD','Fitcom2015jiankangyun123456QWERTyuiop',true);
 /*
  *---------------------------------------------------------------
  * ERROR REPORTING
@@ -98,7 +103,9 @@ switch (ENVIRONMENT)
  * Set the path if it is not in the same directory as this file.
  */
 	$system_path = 'system';
-
+//$config['redis_host'] = '127.0.0.1';
+//$config['redis_post'] = '6388';
+//$config['redis_pwd'] = 'Fitcom2015jiankangyun123456QWERTyuiop';
 /*
  *---------------------------------------------------------------
  * APPLICATION DIRECTORY NAME

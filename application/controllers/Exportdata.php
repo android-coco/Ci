@@ -18,6 +18,8 @@ class Exportdata extends Web_Controller
         $this->load->library('PHPExcel');
         $this->load->helper('excel');
         $this->load->model('Exportdata_model', 'exportdata_model');
+        $this->load->library('RedisDriver', 'redisdriver');//redis
+        $this->redisdriver->connect();//连接redis
     }
 
 
