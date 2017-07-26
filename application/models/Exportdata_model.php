@@ -50,8 +50,7 @@ class Exportdata_model extends CI_Model
         $this->db->limit($onePage,$start1);
 
         $query = $this->db->get();
-//        echo $this->db->last_query();
-//        die();
+
         $this->db->from('`order` AS a,order_detail AS b, menu AS c, store AS d');
         $this->db->where("a.orderid = b.orderid");
         $this->db->where(" a.paystatus = 1");
