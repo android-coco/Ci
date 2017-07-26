@@ -12,16 +12,24 @@ class Exportdata_model extends CI_Model
     {
         parent::__construct();
         $this->load->database();
+        $this->load->helper('url');
     }
 
     public function getxiaoshou($start = "2017-06-14 00:00:00", $end = "2017-06-14 23:59:59", $page = 0)
     {
+//        echo site_url();
+//        die();
         if ($page < 1)
         {
             $page = 1;
         }
         $onePage = 10;//每页显示多少
         $start1 = ($page - 1) * $onePage;//开始数据ID
+        $where = array(
+            'a.paystatus =' => 1,
+            'a.dateline >=' => $start." 00:00:00",
+            'a.dateline <=' => $end." 23:59:59",
+            );
         $this->db->select("
         b.orderdetailid AS \"订单详情id\",
         b.orderid AS \"订单id\",
@@ -40,24 +48,34 @@ class Exportdata_model extends CI_Model
         a.paytype AS \"支付类型\",
         d.sname AS \"店铺名称\"
         ");
-        $this->db->from('`order` AS a,order_detail AS b, menu AS c, store AS d');
-        $this->db->where("a.orderid = b.orderid");
-        $this->db->where(" a.paystatus = 1");
-        //(a.dateline >= '".$start."' and a.dateline <= '".$end."')
-        $this->db->where("(a.dateline >= '".$start." 00:00:00"."' and a.dateline <= '".$end." 23:59:59"."')");
-        $this->db->where('b.menuid = c.menuid');
-        $this->db->where("a.storeid = d.storeid");
+        $this->db->from('`order` a');
+        $this->db->join('order_detail b','a.orderid = b.orderid','left');
+        $this->db->join('menu c','b.menuid = c.menuid','left');
+        $this->db->join('store d','a.storeid = d.storeid','left');
+//        $this->db->where("a.orderid = b.orderid");
+//        $this->db->where(" a.paystatus = 1");
+//        //(a.dateline >= '".$start."' and a.dateline <= '".$end."')
+//        $this->db->where("(a.dateline >= '".$start." 00:00:00"."' and a.dateline <= '".$end." 23:59:59"."')");
+//        $this->db->where('b.menuid = c.menuid');
+//        $this->db->where("a.storeid = d.storeid");
+        $this->db->where($where);
         $this->db->limit($onePage,$start1);
 
         $query = $this->db->get();
+//        echo $this->db->last_query();
+//        die();
 
-        $this->db->from('`order` AS a,order_detail AS b, menu AS c, store AS d');
-        $this->db->where("a.orderid = b.orderid");
-        $this->db->where(" a.paystatus = 1");
-        //(a.dateline >= '".$start."' and a.dateline <= '".$end."')
-        $this->db->where("(a.dateline >= '".$start." 00:00:00"."' and a.dateline <= '".$end." 23:59:59"."')");
-        $this->db->where('b.menuid = c.menuid');
-        $this->db->where("a.storeid = d.storeid");
+        $this->db->from('`order` a');
+        $this->db->join('order_detail b','a.orderid = b.orderid','left');
+        $this->db->join('menu c','b.menuid = c.menuid','left');
+        $this->db->join('store d','a.storeid = d.storeid','left');
+//        $this->db->where("a.orderid = b.orderid");
+//        $this->db->where(" a.paystatus = 1");
+//        //(a.dateline >= '".$start."' and a.dateline <= '".$end."')
+//        $this->db->where("(a.dateline >= '".$start." 00:00:00"."' and a.dateline <= '".$end." 23:59:59"."')");
+//        $this->db->where('b.menuid = c.menuid');
+//        $this->db->where("a.storeid = d.storeid");
+        $this->db->where($where);
         $query1 = $this->db->get();
         return array("info" => $query->result_array(), "num" => $query1->num_rows());
     }
@@ -66,6 +84,11 @@ class Exportdata_model extends CI_Model
 
     public function exportxiaoshou($start = "2017-06-14 00:00:00", $end = "2017-06-14 23:59:59")
     {
+        $where = array(
+            'a.paystatus =' => 1,
+            'a.dateline >=' => $start." 00:00:00",
+            'a.dateline <=' => $end." 23:59:59",
+        );
         $this->db->select("
         b.orderdetailid AS \"订单详情id\",
         b.orderid AS \"订单id\",
@@ -84,13 +107,17 @@ class Exportdata_model extends CI_Model
         a.paytype AS \"支付类型\",
         d.sname AS \"店铺名称\"
         ");
-        $this->db->from('`order` AS a,order_detail AS b, menu AS c, store AS d');
-        $this->db->where("a.orderid = b.orderid");
-        $this->db->where(" a.paystatus = 1");
-        //(a.dateline >= '".$start."' and a.dateline <= '".$end."')
-        $this->db->where("(a.dateline >= '".$start." 00:00:00"."' and a.dateline <= '".$end." 23:59:59"."')");
-        $this->db->where('b.menuid = c.menuid');
-        $this->db->where("a.storeid = d.storeid");
+        $this->db->from('`order` a');
+        $this->db->join('order_detail b','a.orderid = b.orderid','left');
+        $this->db->join('menu c','b.menuid = c.menuid','left');
+        $this->db->join('store d','a.storeid = d.storeid','left');
+//        $this->db->where("a.orderid = b.orderid");
+//        $this->db->where(" a.paystatus = 1");
+//        //(a.dateline >= '".$start."' and a.dateline <= '".$end."')
+//        $this->db->where("(a.dateline >= '".$start." 00:00:00"."' and a.dateline <= '".$end." 23:59:59"."')");
+//        $this->db->where('b.menuid = c.menuid');
+//        $this->db->where("a.storeid = d.storeid");
+        $this->db->where($where);
         $query = $this->db->get();
         return array("info" => $query->result_array(), "num" => $query->num_rows());
     }
