@@ -179,5 +179,7 @@ return array(
 	'odt'	=>	'application/vnd.oasis.opendocument.text',
 	'odm'	=>	'application/vnd.oasis.opendocument.text-master',
 	'ott'	=>	'application/vnd.oasis.opendocument.text-template',
-	'oth'	=>	'application/vnd.oasis.opendocument.text-web'
+	'oth'	=>	'application/vnd.oasis.opendocument.text-web',
+	'ipa' => array('application/x-zip', 'application/zip', 'application/x-zip-compressed', 'application/vnd.android.package-archive', 'application/octet-stream'),
+	'plist'	=>	array('application/xml', 'text/xml', 'text/plain')
 );

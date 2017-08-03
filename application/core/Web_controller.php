@@ -26,10 +26,10 @@ class Web_Controller extends YH_Controller
     {
         $this->load->library('session');
         $user = $this->session->web_user;
-        // var_dump($user);die;
         if (empty($user) && $redirect) {
             header("Location:{$this->base_url}account/index?from={$from}");
             return;
+        // var_dump($user);die;
         }
         return $user;
     }
