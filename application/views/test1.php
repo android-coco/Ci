@@ -7,7 +7,7 @@
 
 <script>
     function myFunction() {
-        alert();
+//        alert();
         $.ajax({
             url: "http://www.yhlyl.com:8083/admin/suits/delsuitbycode?code=" + $('#demo').vale,
             type: "GET",

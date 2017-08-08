@@ -201,7 +201,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     {
         var start = $('#start_time').val().replace(/-/g, "/");
         var end = $('#end_time').val().replace(/-/g, "/");
-        window.location.href = '<?php echo $base_url; ?>exportdata/exportToData?start_time=' + start + '&end_time=' + end;
+        window.location.href = '<?php echo $base_url; ?>api/exportdata/exportToData?start_time=' + start + '&end_time=' + end;
     });
     $('#go').click(function ()
     {
@@ -215,7 +215,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 alert("页面超出范围！");
                 return;
             }
-            window.location.href = '<?php echo $base_url; ?>exportdata/lists/' + page + '?start_time=<?php echo $start;?>&end_time=<?php echo $end;?>';
+            window.location.href = '<?php echo $base_url; ?>web/exportdata/lists/' + page + '?start_time=<?php echo $start;?>&end_time=<?php echo $end;?>';
         } else
         {
             alert("请输入正确的页面值！");
@@ -233,18 +233,18 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         switch (type)
         {
             case 1://首页 搜索
-                url = '<?php echo $base_url; ?>exportdata/ajaxData/?page=1&start_time=' + start + '&end_time=' + end;
+                url = '<?php echo $base_url; ?>api/exportdata/ajaxData/?page=1&start_time=' + start + '&end_time=' + end;
                 break
             case 2://上页
                 var curr_page = (prepage - 1) <= 1 ? 1 : (prepage - 1);
-                url = '<?php echo $base_url; ?>exportdata/ajaxData/?page=' + curr_page + '&start_time=' + start + '&end_time=' + end;
+                url = '<?php echo $base_url; ?>api/exportdata/ajaxData/?page=' + curr_page + '&start_time=' + start + '&end_time=' + end;
                 break
             case 3://下页
                 var curr_page = (prepage + 1) >= totalpage ? totalpage : (prepage + 1);
-                url = '<?php echo $base_url; ?>exportdata/ajaxData/?page=' + curr_page + '&start_time=' + start + '&end_time=' + end;
+                url = '<?php echo $base_url; ?>api/exportdata/ajaxData/?page=' + curr_page + '&start_time=' + start + '&end_time=' + end;
                 break
             case 4://尾页
-                url = '<?php echo $base_url; ?>exportdata/ajaxData/?page=' + totalpage + '&start_time=' + start + '&end_time=' + end;
+                url = '<?php echo $base_url; ?>api/exportdata/ajaxData/?page=' + totalpage + '&start_time=' + start + '&end_time=' + end;
                 break
             case 6://go
                 var page = $('#gopage').val().trim();
@@ -256,7 +256,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         alert("页面超出范围！");
                         return;
                     }
-                    url = '<?php echo $base_url; ?>exportdata/ajaxData/?page=' + page + '&start_time=' + start + '&end_time=' + end;
+                    url = '<?php echo $base_url; ?>api/exportdata/ajaxData/?page=' + page + '&start_time=' + start + '&end_time=' + end;
                 } else
                 {
                     alert("请输入正确的页面值！");
