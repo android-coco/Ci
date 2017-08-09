@@ -89,9 +89,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             <th>
                 减免价格
             </th>
-
             <th>
                 需支付价格
+            </th>
+            <th>
+                支付总金额
+            </th>
+            <th>
+                退入饭卡总金额
             </th>
             <th>
                 最后修改时间

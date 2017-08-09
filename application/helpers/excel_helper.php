@@ -1,7 +1,7 @@
 <?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
 if ( ! function_exists('excel_download')){
-	function excel_download($header,$params){
+	function excel_download($header,$params,$filename = null){
         $string = array('A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z');
 		error_reporting(E_ALL);
 		ini_set('display_errors', TRUE);
@@ -22,7 +22,11 @@ if ( ! function_exists('excel_download')){
 									 ->setCategory("Test result file");
 		// 重定向客户端浏览器(Excel5)
 		header('Content-Type: application/vnd.ms-excel');
-		header('Content-Disposition: attachment;filename="'.date('Ymd').'.xlsx"');
+		if(is_null($filename))
+		{
+			$filename =  date('Y-m-dhis');
+		}
+		header('Content-Disposition: attachment;filename="'.$filename.'.xlsx"');
 		header('Cache-Control: max-age=0');
 		// 如果你的是IE9则需要下面内容
 		header('Cache-Control: max-age=1');
@@ -57,7 +61,7 @@ if ( ! function_exists('excel_download')){
 		// Set active sheet index to the first sheet, so Excel opens this as the first sheet
 		$objPHPExcel->setActiveSheetIndex(0);
 
-		$objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel5');
+		$objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel2007');
 		$objWriter->save('php://output');
 		exit;
 	}
