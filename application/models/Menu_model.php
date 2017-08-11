@@ -5,7 +5,6 @@
  * Date: 2017/5/13
  * Time: 12:26
  */
-require_once APPPATH . 'controllers/MenuBean.php';
 class Menu_model extends CI_Model
 {
     public function __construct()
