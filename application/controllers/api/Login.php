@@ -27,6 +27,8 @@ class Login extends Api_Controller
 
     public function login()
     {
+        $hader = getallheaders();
+//        var_dump(getallheaders());
         //$this->benchmark->mark('code_start');
         $user_name = is_null($this->input->post('user')) ? $this->input->get('user') : $this->input->post('user');
         $pass = is_null($this->input->post('pass')) ? $this->input->get('pass') : $this->input->post('pass');
@@ -34,7 +36,7 @@ class Login extends Api_Controller
         {
             if ($user_name == '123456' && $pass == '123456')
             {
-                $this->response(array('result' => 0, 'data' => array(array('username' => 123456, "pass" => 123456), array('username' => 123456, "pass" => 123456))));
+                $this->response(array('result' => 0, 'data' => $hader));
             }
             else
             {
