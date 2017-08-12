@@ -58,7 +58,7 @@ define('ENVIRONMENT', isset($_SERVER['CI_ENV']) ? $_SERVER['CI_ENV'] : 'developm
  * redis配置
  */
 define('REDIS_HOST','127.0.0.1',true);
-define('REDIS_POST','6388',true);
+define('REDIS_POST','6379',true);
 define('REDIS_PWD','Fitcom2015jiankangyun123456QWERTyuiop',true);
 /*
  *---------------------------------------------------------------

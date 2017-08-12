@@ -34,10 +34,18 @@ class Menu_model extends CI_Model
         $this->db->select('A.menuid,A.menuname,A.pic,A.price');
         $this->db->from('menu A');
         $this->db->order_by('A.menuid', 'DESC');
-        $this->db->limit(32, ($page - 1) * 32);
+        $query1 = $this->db->get();
+        $num = $query1->num_rows();
+
+        $this->db->select('A.menuid,A.menuname,A.pic,A.price');
+        $this->db->from('menu A');
+        $this->db->order_by('A.menuid', 'DESC');
+        $this->db->limit(16, ($page - 1) * 16);
         $query = $this->db->get();
+        $num = ceil($num / 16);
         //echo "sql语句：".$this->db->last_query();
-        return $query->result_array();
+        $data = ["data"=>$query->result_array(),"num"=>$num];
+        return $data;
     }
 
     /**

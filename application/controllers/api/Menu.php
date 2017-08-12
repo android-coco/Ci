@@ -14,13 +14,13 @@ class Menu extends Api_Controller
         $this->load->model('Menu_model', 'menu_model');
     }
 
-    public function list()
+    public function menuList()
     {
         $page = $this->input->get("page");
         $page = isset($page) ? $page : 0;
         $row = $this->menu_model->getMenu($page);
         $row = is_null($row) ? array() : $row;
-        $this->response(array('result' => 0, 'data' => $row));
+        $this->response(array('result' => 0, 'totalpage'=>$row['num'],'data' => $row['data']));
     }
 
 
