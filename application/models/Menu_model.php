@@ -27,6 +27,7 @@ class Menu_model extends CI_Model
     // 所有菜品
     public function getMenu($page = 0)
     {
+        $offset = 20;
         if ($page < 1)
         {
             $page = 1;
@@ -40,9 +41,9 @@ class Menu_model extends CI_Model
         $this->db->select('A.menuid,A.menuname,A.pic,A.price');
         $this->db->from('menu A');
         $this->db->order_by('A.menuid', 'DESC');
-        $this->db->limit(16, ($page - 1) * 16);
+        $this->db->limit($offset, ($page - 1) * $offset);
         $query = $this->db->get();
-        $num = ceil($num / 16);
+        $num = ceil($num / $offset);
         //echo "sql语句：".$this->db->last_query();
         $data = ["data"=>$query->result_array(),"num"=>$num];
         return $data;
