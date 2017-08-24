@@ -13,6 +13,6 @@ class Expost extends Api_Controller
         $pass = "123456";
         setcookie("youhao",$pass);
         $data = getallheaders();
-        $this->response($data);
+        $this->response(array('a'=>$data,'b'=> $_REQUEST));
     }
 }
