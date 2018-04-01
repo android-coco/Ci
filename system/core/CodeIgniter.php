@@ -35,6 +35,11 @@
  * @since	Version 1.0.0
  * @filesource
  */
+/*
+ * ---------------------------------------
+ * 为了防止跨站攻击，直接通过访问文件路径用的
+ * ---------------------------------------
+ */
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 /**
@@ -55,11 +60,21 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * @var	string
  *
  */
-	const CI_VERSION = '3.1.4';
+/*
+ * ---------------------------------------
+ * 下面是关于框架版本信息的。
+ * ---------------------------------------
+ */
+   const CI_VERSION = '3.1.4';
 
 /*
  * ------------------------------------------------------
  *  Load the framework constants
+ * 	加载框架的常量
+ * 	默认在config下面  或者config/指定运行模式目录下/
+ * 引入配置文件constants.php，我们可以根据开发
+ * 环境和生产环境引入不同的配置文件，该文件主要
+ * 定义一些文件及目录的权限常量。
  * ------------------------------------------------------
  */
 	if (file_exists(APPPATH.'config/'.ENVIRONMENT.'/constants.php'))
@@ -75,7 +90,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 /*
  * ------------------------------------------------------
  *  Load the global functions
+ *	 加载全局函数
  * ------------------------------------------------------
+ */
+/* 
+ * ---------------------------------------
+ * 引入system/core/Common.php，该文件存放一
+ * 些封装好的函数方便我们后面的使用。
+ * ---------------------------------------
  */
 	require_once(BASEPATH.'core/Common.php');
 
@@ -83,6 +105,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 /*
  * ------------------------------------------------------
  * Security procedures
+ * 安全程序
  * ------------------------------------------------------
  */
 
@@ -133,6 +156,7 @@ if ( ! is_php('5.4'))
 /*
  * ------------------------------------------------------
  *  Define a custom error handler so we can log PHP errors
+ * 定义一个自定义错误处理程序，以便我们可以记录PHP错误。
  * ------------------------------------------------------
  */
 	set_error_handler('_error_handler');
@@ -154,6 +178,7 @@ if ( ! is_php('5.4'))
  * before any classes are loaded
  * Note: Since the config file data is cached it doesn't
  * hurt to load it here.
+ * 加载子类的前缀
  */
 	if ( ! empty($assign_to_config['subclass_prefix']))
 	{
@@ -186,6 +211,7 @@ if ( ! is_php('5.4'))
 /*
  * ------------------------------------------------------
  *  Start the timer... tick tock tick tock...
+ *  启动计时器
  * ------------------------------------------------------
  */
 	$BM =& load_class('Benchmark', 'core');
